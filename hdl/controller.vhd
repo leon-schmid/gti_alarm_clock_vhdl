@@ -92,13 +92,11 @@ begin
           END IF;
           
       -- TODO: Pruefe, ob Alarm ausgeloest werden muss
-      IF (selectrigger = '1') THEN
-      	IF (hours = whours AND mins = wmins) THEN
+      	IF (sw(0) = '1' AND hours = whours AND mins = wmins) THEN
         	alarm <= '1'; -- Alarm is initialized with '0', as it is currently off
         ELSE
         	alarm <= '0'; -- It should stay off, if the alarmtime is not the current time
         END IF;
-      END IF;
       
       case current_state is
         -- Zustand Time
@@ -126,7 +124,7 @@ begin
           END IF;
           
           -- TODO: Setze Minute und Stunde mit BTN(2) bzw. BTN(3)
-          IF (btn_triggered(2) = '1') THEN -- btn_2 increments the minutes
+          IF (fasttrigger = '1' AND btn_triggered(2) = '1') THEN -- btn_2 increments the minutes
           	IF (mins < 59) THEN
             	mins <= mins + 1;
             ELSE
@@ -135,7 +133,7 @@ begin
            END IF;
             -- we are done with the minutes, as increasing one more after 59, sets the minutes to 0 but doesn't change the hour
             
-            IF (btn_triggered(3) = '1') THEN
+            IF (fasttrigger = '1' AND btn_triggered(3) = '1') THEN
             	IF (hours < 23) THEN
                 	hours <= hours + 1;
                 ELSE 
@@ -156,7 +154,7 @@ begin
                 	nex_state := SET_ALARM;
            END IF;
           -- TODO: Setze Minute und Stunde mit BTN(2) bzw. BTN(3)
-          IF (btn_triggered(2) = '1') THEN
+          IF (fasttrigger = '1' AND btn_triggered(2) = '1') THEN
           	IF (wmins < 59) THEN
             	wmins <= wmins + 1;
             ELSE 
@@ -164,7 +162,7 @@ begin
             END IF;
           END IF;
           
-          IF(btn_triggered(3) = '1') THEN
+          IF(fasttrigger = '1' AND btn_triggered(3) = '1') THEN
           	IF(whours < 23) THEN
             	whours <= whours + 1;
             ELSE
@@ -193,4 +191,5 @@ begin
              "10" when SET_ALARM,
              "11" when others;
 end architecture Behavioral;
+
 

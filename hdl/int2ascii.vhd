@@ -24,7 +24,7 @@ BEGIN
         
         -- pseudocode line 1 to 7 is already implemented (hardcoded)
 
-        FOR i IN 0 TO v_number'length - 1 LOOP -- Looping through the vector -> line 7
+        FOR i IN 0 TO v_number'length - 1 LOOP -- Looping through the vector // length = 7 (2^(4-1) -1) -> line 7
         
         	-- hardcoding the inner for loop as we have a fixed size of two of our vector -> line 8 to 10
             IF (v_bcd0 > 4) THEN
@@ -33,14 +33,15 @@ BEGIN
             
             IF (v_bcd1 > 4) THEN
             	v_bcd1 := v_bcd1 + 3;
+            END IF;    
                 
             -- passing on implementing the loop as it is just one iteration with v_bcd1 : NumberOfBCDValues (( == 2) - 1) = 1 -> line 12 to 14
             v_bcd1 := SHIFT_LEFT(v_bcd1, 1); -- sll 1; -- we can use the sll operation here, as we have unsigned values
             v_bcd1(0) := v_bcd0(3);
             
             -- implementing line 16 and 17
-            v_bcd0 := v_bcd0 sll 1;
-            v_bcd0(0) := v_number(v_number'length - i - 1);
+            v_bcd0 := SHIFT_LEFT(v_bcd0, 1);
+            v_bcd0(0) := v_number(v_number'length - 1);
             
         END LOOP;
         
@@ -48,7 +49,8 @@ BEGIN
         s_bcd0 <= v_bcd0;
         s_bcd1 <= v_bcd1;
     END PROCESS;
-    o_ascii0 <= ?;
-    o_ascii1 <= ?;
+    o_ascii0 <= std_logic_vector("0011" & s_bcd0); -- in ASCII 0 is 48 in decimal --> 48 == 0011 0000 (2^5 + 2^4)
+    o_ascii1 <= std_logic_vector("0011" & s_bcd1);
 END ARCHITECTURE behavioral;
+
 
