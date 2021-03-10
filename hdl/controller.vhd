@@ -73,7 +73,7 @@ begin
       end loop;
 
         -- TODO: Zaehle Uhr hoch
-        IF (selectrigger = '1') THEN 
+        IF (selectrigger = '1' AND current_state /= SET_TIME) THEN 
         	IF (secs < 59) THEN
             	secs <= secs + 1;
             ELSE
@@ -87,9 +87,9 @@ begin
                     ELSE
                     	hours <= 0;
                    	END IF;
-                 END IF;
-             END IF;
-          END IF;
+                END IF;
+            END IF;
+        END IF;
           
       -- TODO: Pruefe, ob Alarm ausgeloest werden muss
       	IF (sw(0) = '1' AND hours = whours AND mins = wmins) THEN
