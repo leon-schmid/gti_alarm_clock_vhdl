@@ -124,7 +124,7 @@ begin
           END IF;
           
           -- TODO: Setze Minute und Stunde mit BTN(2) bzw. BTN(3)
-          IF (fasttrigger = '1' AND btn_triggered(2) = '1') THEN -- btn_2 increments the minutes
+          IF (fasttrigger = '1' AND btn(2) = '1') OR btn_triggered(2) = '1' THEN -- btn_2 increments the minutes (also, increases when keeping pressed)
           	IF (mins < 59) THEN
             	mins <= mins + 1;
             ELSE
@@ -133,7 +133,7 @@ begin
            END IF;
             -- we are done with the minutes, as increasing one more after 59, sets the minutes to 0 but doesn't change the hour
             
-            IF (fasttrigger = '1' AND btn_triggered(3) = '1') THEN
+            IF (fasttrigger = '1' AND btn(3) = '1') OR btn_triggered(3) = '1' THEN -- keeping the button pushed down will also increase
             	IF (hours < 23) THEN
                 	hours <= hours + 1;
                 ELSE 
@@ -154,7 +154,7 @@ begin
                 	nex_state := SET_ALARM;
            END IF;
           -- TODO: Setze Minute und Stunde mit BTN(2) bzw. BTN(3)
-          IF (fasttrigger = '1' AND btn_triggered(2) = '1') THEN
+          IF (fasttrigger = '1' AND btn(2) = '1') OR btn_triggered(2) = '1' THEN
           	IF (wmins < 59) THEN
             	wmins <= wmins + 1;
             ELSE 
@@ -162,7 +162,7 @@ begin
             END IF;
           END IF;
           
-          IF(fasttrigger = '1' AND btn_triggered(3) = '1') THEN
+          IF(fasttrigger = '1' AND btn(3) = '1') OR btn_triggered(3) = '1' THEN
           	IF(whours < 23) THEN
             	whours <= whours + 1;
             ELSE
