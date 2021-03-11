@@ -27,12 +27,13 @@ BEGIN
         FOR i IN 0 TO v_number'length - 1 LOOP -- Looping through the vector // length = 7 (2^(4-1) -1) -> line 7
         
         	-- hardcoding the inner for loop as we have a fixed size of two of our vector -> line 8 to 10
-            IF (v_bcd0 > "0100") THEN
-            	v_bcd0 := v_bcd0 + "0011";
+            -- imlementing the "double dabble algorithm"
+            IF (v_bcd0 > 4) THEN
+            	v_bcd0 := v_bcd0 + 3;
             END IF;
             
-            IF (v_bcd1 > "0100") THEN
-            	v_bcd1 := v_bcd1 + "0011";
+            IF (v_bcd1 > 4) THEN
+            	v_bcd1 := v_bcd1 + 3;
             END IF;    
                 
             -- passing on implementing the loop as it is just one iteration with v_bcd1 : NumberOfBCDValues (( == 2) - 1) = 1 -> line 12 to 14
@@ -44,8 +45,7 @@ BEGIN
             v_bcd0(0) := v_number(v_number'length - 1 - i);
             
         END LOOP;
-        
-        
+
         s_bcd0 <= v_bcd0;
         s_bcd1 <= v_bcd1;
     END PROCESS;
